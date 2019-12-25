@@ -7,6 +7,7 @@ import (
 	"github.com/hvs-fasya/wb_intern/pkg/models"
 )
 
+//UserServiceIface common user service interface
 type UserServiceIface interface {
 	CreateUser(input models.CreateUserInput) error
 }
@@ -23,6 +24,7 @@ type userService struct {
 
 type storage []models.User
 
+//CreateUser create user method, implements common user service interface
 func (s *userService) CreateUser(inp models.CreateUserInput) error {
 	var curID int
 	if inp.Name == "" {
@@ -42,6 +44,7 @@ func (s *userService) CreateUser(inp models.CreateUserInput) error {
 	return nil
 }
 
+//NewUserService user service constructor
 func NewUserService(n notifierIface) UserServiceIface {
 	s := make([]models.User, 0)
 	return &userService{
