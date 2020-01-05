@@ -4,11 +4,11 @@ import (
 	"testing"
 
 	"github.com/hvs-fasya/wb_intern/pkg/models"
-	"github.com/hvs-fasya/wb_intern/pkg/notifier"
+	nfier "github.com/hvs-fasya/wb_intern/pkg/notifier"
 )
 
 func Test_userService_CreateUser(t *testing.T) {
-	var n = notifier.NewNotifier()
+	var n = nfier.NewNotifier(nfier.Cfg{Tmpl: "user %s created\n"})
 	var s = NewUserService(n)
 	type args struct {
 		inp models.CreateUserInput

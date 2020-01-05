@@ -1,18 +1,27 @@
 package notifier
 
-//NotifierIface common notifier interface
-type NotifierIface interface {
-	NotifyCreateUser(string)
+import "fmt"
+
+// Cfg notifier instance config struct
+type Cfg struct {
+	Tmpl string
 }
 
-type notifier struct{}
-
-//NotifyCreateUser create user notiifcation method
-func (n *notifier) NotifyCreateUser(userName string) {
-	println("user '" + userName + "' created")
+// Notifier common notifier interface
+type Notifier interface {
+	NotifyCreateUser([]string)
 }
 
-//NewNotifier notifier constructor
-func NewNotifier() NotifierIface {
-	return &notifier{}
+type notifier struct {
+	Cfg
+}
+
+// NotifyCreateUser create user notiifcation method
+func (n *notifier) NotifyCreateUser(subst []string) {
+	fmt.Printf(n.Tmpl, subst)
+}
+
+// NewNotifier notifier constructor
+func NewNotifier(cfg Cfg) Notifier {
+	return &notifier{Cfg: cfg}
 }

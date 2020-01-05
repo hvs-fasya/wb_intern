@@ -6,7 +6,7 @@ type User struct {
 	Name string
 }
 
-//CreateUserInput input struct for CreateUser
+// CreateUserInput input struct for CreateUser
 type CreateUserInput struct {
 	Name string
 }

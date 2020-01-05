@@ -8,13 +8,18 @@ import (
 	"github.com/hvs-fasya/wb_intern/pkg/service"
 )
 
-func main() {
-	n := nfier.NewNotifier()
-	s := service.NewUserService(n)
-	var newUsers = [2]models.CreateUserInput{
+var (
+	newUsers = [2]models.CreateUserInput{
 		{Name: "new_user"},
 		{Name: ""},
 	}
+	notifyTmpl = "user %s created\n"
+)
+
+func main() {
+	n := nfier.NewNotifier(nfier.Cfg{Tmpl: notifyTmpl})
+	s := service.NewUserService(n)
+
 	for _, u := range newUsers {
 		if err := s.CreateUser(u); err != nil {
 			log.Printf("create user '" + u.Name + "' error: " + err.Error())

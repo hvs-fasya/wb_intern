@@ -7,45 +7,45 @@ import (
 	"github.com/hvs-fasya/wb_intern/pkg/models"
 )
 
-//UserServiceIface common user service interface
-type UserServiceIface interface {
+// UserService common user service interface
+type UserService interface {
 	CreateUser(input models.CreateUserInput) error
 }
 
-type notifierIface interface {
-	NotifyCreateUser(string)
+type notifier interface {
+	NotifyCreateUser([]string)
 }
 
 type userService struct {
-	mux      sync.Mutex
+	sync.Mutex
 	storage  storage
-	notifier notifierIface
+	notifier notifier
 }
 
 type storage []models.User
 
-//CreateUser create user method, implements common user service interface
+// CreateUser create user method, implements common user service interface
 func (s *userService) CreateUser(inp models.CreateUserInput) error {
 	var curID int
 	if inp.Name == "" {
 		return errors.New("user name required")
 	}
-	s.mux.Lock()
+	s.Lock()
 	for _, u := range s.storage {
 		if curID < u.ID {
 			curID = u.ID
 		}
 	}
 	s.storage = append(s.storage, models.User{ID: curID + 1, Name: inp.Name})
-	s.mux.Unlock()
+	s.Unlock()
 	//hidden behind facade action
-	s.notifier.NotifyCreateUser(inp.Name)
+	s.notifier.NotifyCreateUser([]string{inp.Name})
 
 	return nil
 }
 
-//NewUserService user service constructor
-func NewUserService(n notifierIface) UserServiceIface {
+// NewUserService user service constructor
+func NewUserService(n notifier) UserService {
 	s := make([]models.User, 0)
 	return &userService{
 		storage:  s,
