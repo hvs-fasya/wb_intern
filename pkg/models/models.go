@@ -1,5 +1,8 @@
 package models
 
+// package constants
+const EmptyUserName = ""
+
 // User user struct as per storage
 type User struct {
 	ID   int

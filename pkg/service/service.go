@@ -1,7 +1,6 @@
 package service
 
 import (
-	"errors"
 	"sync"
 
 	"github.com/hvs-fasya/wb_intern/pkg/models"
@@ -27,8 +26,8 @@ type storage []models.User
 // CreateUser create user method, implements common user service interface
 func (s *userService) CreateUser(inp models.CreateUserInput) error {
 	var curID int
-	if inp.Name == "" {
-		return errors.New("user name required")
+	if inp.Name == models.EmptyUserName {
+		return models.ErrUserNameRequired
 	}
 	s.Lock()
 	for _, u := range s.storage {
