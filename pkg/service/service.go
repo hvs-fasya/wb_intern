@@ -10,7 +10,7 @@ type UserService interface {
 }
 
 type notifier interface {
-	NotifyCreateUser([]string)
+	NotifyCreateUser([]interface{})
 }
 
 type storage interface {
@@ -27,8 +27,11 @@ func (s *userService) CreateUser(inp models.CreateUserInput) error {
 	if err := s.storage.NewUser(inp.Name); err != nil {
 		return err
 	}
+	if inp.Type == "" {
+		inp.Type = models.UserTypeSimple
+	}
 	//hidden behind facade action
-	s.notifier.NotifyCreateUser([]string{inp.Name})
+	s.notifier.NotifyCreateUser([]interface{}{inp.Name})
 
 	return nil
 }

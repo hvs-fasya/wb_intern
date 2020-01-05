@@ -9,7 +9,7 @@ type Cfg struct {
 
 // Notifier common notifier interface
 type Notifier interface {
-	NotifyCreateUser([]string)
+	NotifyCreateUser([]interface{})
 }
 
 type notifier struct {
@@ -17,8 +17,8 @@ type notifier struct {
 }
 
 // NotifyCreateUser create user notiifcation method
-func (n *notifier) NotifyCreateUser(subst []string) {
-	fmt.Printf(n.Tmpl, subst)
+func (n *notifier) NotifyCreateUser(subst []interface{}) {
+	fmt.Printf(n.Tmpl, subst...)
 }
 
 // NewNotifier notifier constructor
