@@ -3,13 +3,15 @@ package service
 import (
 	"testing"
 
+	"github.com/hvs-fasya/wb_intern/pkg/memstore"
 	"github.com/hvs-fasya/wb_intern/pkg/models"
 	nfier "github.com/hvs-fasya/wb_intern/pkg/notifier"
 )
 
 func Test_userService_CreateUser(t *testing.T) {
 	var n = nfier.NewNotifier(nfier.Cfg{Tmpl: "user %s created\n"})
-	var s = NewUserService(n)
+	var ms = memstore.NewMemStore()
+	var s = NewUserService(n, ms)
 	type args struct {
 		inp models.CreateUserInput
 	}
